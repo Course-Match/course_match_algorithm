@@ -12,13 +12,22 @@ from Cython.Build import cythonize
 # List of source files to be compiled
 ext_modules = [
     Extension(
-        "remove_oversubscription1",
-        sources=["fairpyx/algorithms/course_match/performance/remove_oversubscription1.pyx"],
+        "remove_oversubscription_p",
+        sources=["fairpyx/algorithms/course_match/performance/remove_oversubscription_p.pyx"],
     ),
     Extension(
-        "reduce_undersubscription",
-        sources=["fairpyx/algorithms/course_match/performance/reduce_undersubscription.pyx"],
+        "reduce_undersubscription_p",
+        sources=["fairpyx/algorithms/course_match/performance/reduce_undersubscription_p.pyx"],
     ),
+    Extension(
+        "A_CEEI_p",
+        sources=["fairpyx/algorithms/course_match/performance/A_CEEI_p.pyx"],
+    ),
+    Extension(
+        "main_course_match_p",
+        sources=["fairpyx/algorithms/course_match/performance/main_course_match_p.pyx"],
+    ),
+    
 ]
 
 setup(

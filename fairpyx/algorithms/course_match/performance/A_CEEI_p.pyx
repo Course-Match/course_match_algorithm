@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 """
 Algorithm 1: Approximate Competitive Equilibrium from Equal Incomes (A-CEEI), finds the best price vector that matches student preferences and course capacities.
 """
-cdef dict A_CEEI(alloc ,dict budget ,int time_limit  = 60, seed = None) :
+cpdef dict A_CEEI(alloc ,dict budget ,int time_limit  = 60, seed = None) :
     logger.info("Starting A_CEEI algorithm with budget=%s and time limit %d.",budget, time_limit)
    
 
@@ -87,7 +87,7 @@ cdef dict A_CEEI(alloc ,dict budget ,int time_limit  = 60, seed = None) :
                         break
     logger.info("A-CEEI algorithm completed. Best price vector: %s with error: %f", best_price_vector, best_error)      
     return best_price_vector
-cdef is_valid_schedule(dict schedule,dict item_conflicts,dict agent_conflicts,str agent):
+cpdef is_valid_schedule(dict schedule,dict item_conflicts,dict agent_conflicts,str agent):
     # Check item conflicts
     for item, conflicts in item_conflicts.items():
         if schedule.get(item, 0) == 1:
@@ -101,7 +101,7 @@ cdef is_valid_schedule(dict schedule,dict item_conflicts,dict agent_conflicts,st
     return True
 
 
-cdef list generate_all_schedules(list items,int capacity ,dict item_conflicts,dict agent_conflicts,str agent):
+cpdef list generate_all_schedules(list items,int capacity ,dict item_conflicts,dict agent_conflicts,str agent):
     cdef list all_schedules = []
     cdef dict schedule_dict 
     for num_courses_per_agent in range(1, capacity + 1):
@@ -112,7 +112,7 @@ cdef list generate_all_schedules(list items,int capacity ,dict item_conflicts,di
     return all_schedules
 
 
-cdef dict find_preference_order_for_each_student(dict valuations,dict agent_capacities,dict item_conflicts,dict agent_conflicts):   
+cpdef dict find_preference_order_for_each_student(dict valuations,dict agent_capacities,dict item_conflicts,dict agent_conflicts):   
     cdef dict preferred_schedules = dict()
     cdef list items 
     cdef int capacity
@@ -151,7 +151,7 @@ cdef dict find_preference_order_for_each_student(dict valuations,dict agent_capa
 
 
 
-cdef dict compute_surplus_demand_for_each_course(dict price_vector ,alloc, dict budget,dict preferred_schedule):
+cpdef dict compute_surplus_demand_for_each_course(dict price_vector ,alloc, dict budget,dict preferred_schedule):
     cdef list best_schedules = find_best_schedule(price_vector, budget, preferred_schedule)
     sol = np.sum(np.array(best_schedules), axis=0)
     # Convert item capacities to a list
@@ -165,7 +165,7 @@ cdef dict compute_surplus_demand_for_each_course(dict price_vector ,alloc, dict 
     return result
        
 
-cdef list find_best_schedule(dict price_vector,dict budget ,dict preferred_schedule):    
+cpdef list find_best_schedule(dict price_vector,dict budget ,dict preferred_schedule):    
     cdef list best_schedule = []
     cdef int cuont = 0
     cdef list sum_of_courses 
@@ -181,12 +181,12 @@ cdef list find_best_schedule(dict price_vector,dict budget ,dict preferred_sched
     return best_schedule
                
         
-cdef float alpha(dict demands):
+cpdef float alpha(dict demands):
     result = np.sqrt(sum([v**2 for v in demands.values()]))
     return result
 
 
-cdef list find_neighbors(dict price_vector ,alloc, dict budget, list steps ,dict preferred_schedule):    
+cpdef list find_neighbors(dict price_vector ,alloc, dict budget, list steps ,dict preferred_schedule):    
     cdef dict demands = compute_surplus_demand_for_each_course(price_vector, alloc, budget, preferred_schedule)
     cdef list list_of_neighbors = generate_gradient_neighbors(price_vector, demands, steps)
     list_of_neighbors.extend(generate_individual_adjustment_neighbors(price_vector, alloc, demands, budget, preferred_schedule))
@@ -196,7 +196,7 @@ cdef list find_neighbors(dict price_vector ,alloc, dict budget, list steps ,dict
     return sorted_neighbors
 
 
-cdef list generate_individual_adjustment_neighbors(dict price_vector, alloc, dict demands, dict budget, dict preferred_schedule):
+cpdef list generate_individual_adjustment_neighbors(dict price_vector, alloc, dict demands, dict budget, dict preferred_schedule):
     cdef float step=0.1
     cdef list eighbors = []
     cdef dict new_price_vector
@@ -222,7 +222,7 @@ cdef list generate_individual_adjustment_neighbors(dict price_vector, alloc, dic
 
     return neighbors
 
-cdef list generate_gradient_neighbors(dict price_vector,dict demands,list steps):
+cpdef list generate_gradient_neighbors(dict price_vector,dict demands,list steps):
     cdef list neighbors = []
     cdef dict new_price_vector = dict()
     for step in steps:
@@ -233,7 +233,7 @@ cdef list generate_gradient_neighbors(dict price_vector,dict demands,list steps)
         neighbors.append(new_price_vector)
     return neighbors  
 
-cdef dict find_preferred_schedule_adapter(alloc):
+cpdef dict find_preferred_schedule_adapter(alloc):
     cdef dict item_conflicts={item:  alloc.instance.item_conflicts(item) for item in alloc.instance.items}
     cdef dict agent_conflicts={agent:  alloc.instance.agent_conflicts(agent) for agent in alloc.instance.agents}
     return find_preference_order_for_each_student(alloc.instance._valuations , alloc.instance._agent_capacities , item_conflicts , agent_conflicts)

@@ -79,6 +79,7 @@ if __name__ == "__main__":
     budget = {"A": 100.1, "B": 100.2, "C": 100.3, "D": 100.4, "E": 100.5, "F": 100.6, "G": 100.7, "H": 100.8, "I": 100.9, "J": 100.11}    
     
     print(divide(course_match_algorithm, instance, budget=budget))
-    # print(res)
+    # res=course_match_algorithm(AllocationBuilder(instance), budget)
+    # print(res.bundles)
 
     # check_envy(res,instance)
