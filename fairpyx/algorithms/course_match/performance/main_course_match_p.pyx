@@ -16,7 +16,7 @@ import logging
 
 # logging.basicConfig(level=logging.INFO)
 
-cdef course_match_algorithm(alloc, dict budget, list priorities_student_list=[], int time=60):
+cpdef course_match_algorithm(alloc, dict budget, list priorities_student_list=[], int time=60):
     """
     Perform the Course Match algorithm to find the best course allocations.
     

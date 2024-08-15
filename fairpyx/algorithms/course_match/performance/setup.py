@@ -40,3 +40,9 @@ setup(
         "cython",
     ],
 )
+
+
+"""
+python3 fairpyx/algorithms/course_match/performance/setup.py build_ext --inplace
+python3 fairpyx/algorithms/course_match/performance/test.py 
+"""
