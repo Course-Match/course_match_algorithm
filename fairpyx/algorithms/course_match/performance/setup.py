@@ -43,6 +43,10 @@ setup(
 
 
 """
-python3 fairpyx/algorithms/course_match/performance/setup.py build_ext --inplace
-python3 fairpyx/algorithms/course_match/performance/test.py 
+Run build:
+    python3 fairpyx/algorithms/course_match/performance/setup.py build_ext --inplace
+    
+Run 1 OR 2:
+    1 python3 fairpyx/algorithms/course_match/performance/Comparing_time_for_large_input.py 
+    2 python3 fairpyx/algorithms/course_match/performance/Comparing_times_for_a_small_input.py
 """
