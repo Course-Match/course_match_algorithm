@@ -28,8 +28,8 @@ def create_allocation(num_agents,item_capacity):
     return allocation
 
 
-num_agents =150
-item_capacity =31
+num_agents =180
+item_capacity =37
 allocation1= create_allocation(num_agents=num_agents,item_capacity=item_capacity)
 budget1 = make_budget(num_of_agents=num_agents)
 allocation2= create_allocation(num_agents=num_agents,item_capacity=item_capacity)

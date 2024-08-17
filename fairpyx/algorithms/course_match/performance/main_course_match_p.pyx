@@ -28,7 +28,7 @@ cpdef course_match_algorithm(alloc, dict budget, list priorities_student_list=[]
     price_vector = A_CEEI.A_CEEI(alloc, budget, time)
     price_vector = remove_oversubscription.remove_oversubscription(alloc, price_vector, budget)
     reduce_undersubscription.reduce_undersubscription(alloc, price_vector, budget, priorities_student_list)
-    return alloc
+    return alloc.sorted()
 
 if __name__ == "__main__":
     import doctest
